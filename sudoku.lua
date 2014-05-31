@@ -71,7 +71,7 @@ local function solveSudoku(puzzle)
         for i = 1, 9 do
             local cell = test:getCellByPair(i, j)
             if cell.value == nil then
-                print(test:getCellID(i, j), table.concat(cell.domain))
+                print(test:getCellIDByPair(i, j), table.concat(cell.domain))
             end
         end
     end
@@ -82,15 +82,16 @@ local function solveSudoku(puzzle)
 
 end
 
--- loading up the 50 puzzles from sudoku.txt
-io.input("sudoku.txt")
--- Grid XX + newLine + 9 lines of (9 chars + 1 newline)
 local puzzles = {}
+
+-- loading up the 50 puzzles from sudoku.txt
+-- -- Grid XX + newLine + 9 lines of (9 chars + 1 newline)
+-- io.input("sudoku.txt")
 -- for i = 1, 50 do
 --     local t = io.read(string.len("Grid XX") + 1)
 --     t = io.read(9*10)
 --     t = t:gsub("%s+", "")
---     puzzles[i] = t
+--     puzzles[ #puzzles + 1 ] = t
 -- end
 
 -- loading up the 95 'hard' puzzles from top95.txt
@@ -101,7 +102,7 @@ local puzzles = {}
 --     puzzles[ #puzzles+1 ] = t
 -- end
 
--- loading up the 11 "hardest" puzzles
+-- -- loading up the 11 "hardest" puzzles
 io.input("hardest.txt")
 for i = 1, 11 do
     local t = io.read(82)
@@ -109,6 +110,15 @@ for i = 1, 11 do
     puzzles[ #puzzles+1 ] = t
 end
 
+
+-- ProFi = require 'ProFi'
+-- ProFi:start()
+-- -- solveSudoku(puzzles[4])
+-- -- solveSudoku(puzzles[39])
+-- solveSudoku(puzzles[1])
+
+-- ProFi:stop()
+-- ProFi:writeReport( 'Puzzle11-1.txt' )
 
 local numPassed = 0
 local totalDuration = 0
@@ -121,7 +131,8 @@ for i = 1, #puzzles do
         totalDuration = totalDuration + duration
         if duration < smallestDuration then
             smallestDuration = duration
-        elseif duration > longestDuration then
+        end
+        if duration > longestDuration then
             longestDuration = duration
         end
     end
