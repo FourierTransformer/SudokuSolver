@@ -95,20 +95,20 @@ local puzzles = {}
 -- end
 
 -- loading up the 95 'hard' puzzles from top95.txt
--- io.input("top95.txt")
--- for i = 1, 95 do
---     local t = io.read(82)
---     t = t:gsub("%s+", "")
---     puzzles[ #puzzles+1 ] = t
--- end
-
--- -- loading up the 11 "hardest" puzzles
-io.input("hardest.txt")
-for i = 1, 11 do
+io.input("top95.txt")
+for i = 1, 95 do
     local t = io.read(82)
     t = t:gsub("%s+", "")
     puzzles[ #puzzles+1 ] = t
 end
+
+-- -- loading up the 11 "hardest" puzzles
+-- io.input("hardest.txt")
+-- for i = 1, 11 do
+--     local t = io.read(82)
+--     t = t:gsub("%s+", "")
+--     puzzles[ #puzzles+1 ] = t
+-- end
 
 
 -- ProFi = require 'ProFi'
