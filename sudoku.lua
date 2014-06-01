@@ -1,10 +1,12 @@
-local TableSalt = require('TableSalt/TableSalt')
+local CSP = require('TableSalt/TableSalt')
+local TableSalt = CSP.TableSalt
+local Pepper = CSP.Pepper
 
 local function printTable(table)
     for j = 1, 9 do
         local row = ""
         for i = 1, 9 do
-            local val = table:getCellValueByPair(i, j)
+            local val = table:getValueByPair(i, j)
             if val ~= nil then
                 row = row .. val .. " "
             else
@@ -24,13 +26,14 @@ end
 local function solveSudoku(puzzle)
     -- setup the board
     local test = TableSalt:new({1,2,3,4,5,6,7,8,9}, 9, 9)
+    test:setAddVarsAfterAnyChange(false)
 
     -- import the puzzle to csp style
     local start_time = os.clock()
     local index = 1
     for c in puzzle:gmatch"." do
         if c ~= "0" and c~="." then
-            test:addConstraintByIDs({index}, TableSalt.setVal, tonumber(c))
+            test:addConstraintByIDs({index}, Pepper.setVal, tonumber(c))
         end
         index = index + 1
     end
@@ -46,13 +49,13 @@ local function solveSudoku(puzzle)
                     giantList[ #giantList+1 ] = {i+k*3, j+n*3}
                 end
             end
-            test:addConstraintByPairs(giantList, TableSalt.allDiff)
+            test:addConstraintByPairs(giantList, Pepper.allDiff)
         end
     end
 
     -- SWEET LATIN SQUARES
-    test:addConstraintForEachColumn(TableSalt.allDiff)
-    test:addConstraintForEachRow(TableSalt.allDiff)
+    test:addConstraintForEachColumn(Pepper.allDiff)
+    test:addConstraintForEachRow(Pepper.allDiff)
 
     -- solve the puzzle
     local start_time = os.clock()
@@ -69,9 +72,9 @@ local function solveSudoku(puzzle)
     -- Debug Output (for when testing single puzzles failing)
     for j = 1, 9 do
         for i = 1, 9 do
-            local cell = test:getCellByPair(i, j)
-            if cell.value == nil then
-                print(test:getCellIDByPair(i, j), table.concat(cell.domain))
+            local cell = test:getValueByPair(i, j)
+            if cell == nil then
+                print(test:getIDByPair(i, j), table.concat(test:getDomainByPair(i, j)))
             end
         end
     end
@@ -95,20 +98,20 @@ local puzzles = {}
 -- end
 
 -- loading up the 95 'hard' puzzles from top95.txt
-io.input("top95.txt")
-for i = 1, 95 do
-    local t = io.read(82)
-    t = t:gsub("%s+", "")
-    puzzles[ #puzzles+1 ] = t
-end
-
--- -- loading up the 11 "hardest" puzzles
--- io.input("hardest.txt")
--- for i = 1, 11 do
+-- io.input("top95.txt")
+-- for i = 1, 95 do
 --     local t = io.read(82)
 --     t = t:gsub("%s+", "")
 --     puzzles[ #puzzles+1 ] = t
 -- end
+
+-- -- loading up the 11 "hardest" puzzles
+io.input("hardest.txt")
+for i = 1, 11 do
+    local t = io.read(82)
+    t = t:gsub("%s+", "")
+    puzzles[ #puzzles+1 ] = t
+end
 
 
 -- ProFi = require 'ProFi'
