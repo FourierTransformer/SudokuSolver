@@ -105,9 +105,9 @@ io.input("top95.txt")
 for i = 1, 95 do
     local t = io.read(82)
     t = t:gsub("%s+", "")
-    -- if i > 90 then
+    if i > 90 then
         puzzles[ #puzzles+1 ] = t
-    -- end
+    end
 end
 
 -- -- loading up the 11 "hardest" puzzles
