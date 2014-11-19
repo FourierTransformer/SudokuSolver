@@ -105,9 +105,7 @@ io.input("top95.txt")
 for i = 1, 95 do
     local t = io.read(82)
     t = t:gsub("%s+", "")
-    if i > 90 then
-        puzzles[ #puzzles+1 ] = t
-    end
+    puzzles[ #puzzles+1 ] = t
 end
 
 -- -- loading up the 11 "hardest" puzzles
@@ -133,7 +131,7 @@ local totalDuration = 0
 local smallestDuration = math.huge
 local longestDuration = -math.huge
 for i = 1, #puzzles do
-    local passed, duration = solveSudoku(puzzles[i])
+    local passed, duration = solveSudoku(puzzles[i], i)
     if passed then
         numPassed = numPassed + 1
         totalDuration = totalDuration + duration
