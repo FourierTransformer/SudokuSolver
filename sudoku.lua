@@ -1,4 +1,4 @@
-local CSP = require('TableSalt/TableSalt')
+local CSP = require('TableSalt')
 local TableSalt = CSP.TableSalt
 local Pepper = CSP.Pepper
 
